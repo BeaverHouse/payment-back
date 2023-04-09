@@ -19,8 +19,10 @@ async def crop_and_process(
     name: str = Form(), 
     year: str = Form(),
     month: str = Form(),
-):
-    os.remove('result/{} {}년 {}월 법인카드 내역.xlsx'.format(name, year, month))
+):  
+    excel_path = 'result/{} {}년 {}월 법인카드 내역.xlsx'.format(name, year, month)
+    if (os.path.exists(excel_path)):
+        os.remove(excel_path)
     for f in files:
         await crop_and_save(f, "_".join([name, year, month]))
     background_tasks.add_task(file_ocr, name, int(year), int(month))
