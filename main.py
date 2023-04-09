@@ -13,7 +13,7 @@ def read_root():
 
 
 @app.post("/process")
-async def crop_and_process(
+def crop_and_process(
     files: list[UploadFile], 
     background_tasks: BackgroundTasks,
     name: str = Form(), 
@@ -24,7 +24,7 @@ async def crop_and_process(
     if (os.path.exists(excel_path)):
         os.remove(excel_path)
     for f in files:
-        await crop_and_save(f, "_".join([name, year, month]))
+        crop_and_save(f, "_".join([name, year, month]))
     background_tasks.add_task(file_ocr, name, int(year), int(month))
     return {
         "message" : "success"

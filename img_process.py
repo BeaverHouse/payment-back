@@ -3,8 +3,8 @@ from fastapi import UploadFile
 import io
 from pathlib import Path
 
-async def crop_and_save(file: UploadFile, folder: str):
-    content = await file.read()
+def crop_and_save(file: UploadFile, folder: str):
+    content = file.file.read()
     im = Image.open(io.BytesIO(content))
     width, height = im.size
     temp = None
