@@ -8,7 +8,8 @@ load_dotenv()
 def parse_text(rawdata):
     card = os.getenv("card", "카드")
 
-    li = rawdata.replace(">", "").split("\r\n")
+    # li = rawdata.replace(">", "").split("\r\n")
+    li = rawdata.replace(">", "").split("\n")
 
     arr = []
     dic = {}

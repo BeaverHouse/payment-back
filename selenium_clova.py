@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 import time
 import os
 import glob
-import clipboard
+# import clipboard
 import openpyxl
 import calendar
 import shutil
@@ -73,9 +73,9 @@ def file_ocr(name, year, month):
 
         # 클립보드에 복사
         time.sleep(10)
-        body.find_element(By.CLASS_NAME, "btn_wrap").click()
+        # body.find_element(By.CLASS_NAME, "btn_wrap").click()
 
-        result = clipboard.paste()
+        result = body.find_element(By.CLASS_NAME, "data_result_area").text
         arr += parse_text(result)
 
     time.sleep(5)
