@@ -53,7 +53,7 @@ def file_ocr(name, year, month):
     # 일단은 X 버튼 눌러서 원래 화면으로
     popups[1].find_element(By.CLASS_NAME, "btn_close").click()
 
-    file_list = glob.glob("{}_{}_{}/*".format(name, year, month))
+    file_list = glob.glob("screenshots/{}_{}_{}/*".format(name, year, month))
     file_list_img = [file for file in file_list if (file.endswith(".jpg") or file.endswith(".png"))]
 
     arr = []
@@ -84,10 +84,7 @@ def file_ocr(name, year, month):
     # sort
     arr = sorted(arr, key=lambda x: x["day"])
     arr = sorted(arr, key=lambda x: x["month"])
-
-    print(arr)
-
-
+    
     # 엑셀 작성
     wb = openpyxl.load_workbook('format.xlsx')
     sh = wb["사용내역"]
@@ -114,4 +111,13 @@ def file_ocr(name, year, month):
     wb.save('result/{} {}년 {}월 법인카드 내역.xlsx'.format(name, year, month))
     print('result/{} {}년 {}월 법인카드 내역.xlsx 에 저장됨'.format(name, year, month))
 
-    shutil.rmtree("{}_{}_{}".format(name, year, month), )
+    shutil.rmtree("screenshots/{}_{}_{}".format(name, year, month), )
+    paths = sorted(Path("screenshots").iterdir(), key=os.path.getmtime)
+    if len(paths) > 0:
+        name, year, month = paths[0].name.split("_")
+        with open("process.txt", "w", encoding="utf8") as f:
+            f.write(paths[0].name)
+        file_ocr(name, year, month)
+    else:
+        with open("process.txt", "w", encoding="utf8") as f:
+            f.write("Idle")

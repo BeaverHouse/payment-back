@@ -17,5 +17,5 @@ def crop_and_save(file: UploadFile, folder: str):
     top, bottom = arr[2], arr[-2]
 
     cropped = im.crop([0, top, width, bottom])
-    Path(folder).mkdir(parents=True, exist_ok=True)
-    cropped.save("{}/{}".format(folder, file.filename))
+    Path("screenshots/{}".format(folder)).mkdir(parents=True, exist_ok=True)
+    cropped.save("screenshots/{}/{}".format(folder, file.filename))
