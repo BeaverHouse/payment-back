@@ -75,7 +75,7 @@ def file_ocr(name, year, month):
         arr += parse_text(result)
 
     time.sleep(5)
-    driver.close()
+    driver.quit()
 
     # sort
     arr = sorted(arr, key=lambda x: x["day"])
