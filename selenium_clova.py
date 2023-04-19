@@ -5,7 +5,6 @@ from selenium.webdriver.common.keys import Keys
 import time
 import os
 import glob
-# import clipboard
 import openpyxl
 import calendar
 import shutil
@@ -13,6 +12,7 @@ from pathlib import Path
 from parse_text import parse_text
 
 def file_ocr(name, year, month):
+
     # 옵션 생성
     options = ChromeOptions()
     # 창 숨기는 옵션 추가
@@ -50,7 +50,7 @@ def file_ocr(name, year, month):
 
     time.sleep(2)
 
-    # 일단은 X 버튼 눌러서 원래 화면으로
+    # 일단은 X 버튼 눌러서 원래 화면으로 (반복실행을 위해)
     popups[1].find_element(By.CLASS_NAME, "btn_close").click()
 
     file_list = glob.glob("screenshots/{}_{}_{}/*".format(name, year, month))
@@ -67,14 +67,10 @@ def file_ocr(name, year, month):
         time.sleep(2)
         popups[1].find_element(By.CLASS_NAME, "btn").click()
 
-        # json 탭 클릭
-        # time.sleep(2)
-        # body.find_elements(By.CLASS_NAME, "result_tab_item")[1].click()
-
-        # 클립보드에 복사
+        # 업로드 대기
         time.sleep(10)
-        # body.find_element(By.CLASS_NAME, "btn_wrap").click()
 
+        # 텍스트 읽기
         result = body.find_element(By.CLASS_NAME, "data_result_area").text
         arr += parse_text(result)
 
@@ -104,7 +100,7 @@ def file_ocr(name, year, month):
         sh.cell(row=row, column=7).value = "복리후생비"
         sh.cell(row=row, column=8).value = "CloudNetworks"
         sh.merge_cells(start_row=row, start_column=9, end_row=row, end_column=10)
-        sh.cell(row=row, column=9).value = "법인카드"
+        # sh.cell(row=row, column=9).value = "법인카드"
         row += 1
 
     Path("result").mkdir(parents=True, exist_ok=True)
@@ -112,6 +108,8 @@ def file_ocr(name, year, month):
     print('result/{} {}년 {}월 법인카드 내역.xlsx 에 저장됨'.format(name, year, month))
 
     shutil.rmtree("screenshots/{}_{}_{}".format(name, year, month), )
+
+    # 남은 목록이 있으면 오래된 것부터 실행
     paths = sorted(Path("screenshots").iterdir(), key=os.path.getmtime)
     if len(paths) > 0:
         name, year, month = paths[0].name.split("_")

@@ -5,8 +5,11 @@ from pathlib import Path
 
 def crop_and_save(file: UploadFile, folder: str):
     content = file.file.read()
+
     im = Image.open(io.BytesIO(content))
     width, height = im.size
+    
+    # 이미지 색상이 바뀌는 구간을 arr에 기록함
     temp = None
     arr: list[int] = [0] 
     for i in range(height):
@@ -14,6 +17,8 @@ def crop_and_save(file: UploadFile, folder: str):
         if rgb != temp and i - arr[-1] > 5:
             arr.append(i)
         temp = rgb
+    
+    # 조건에 맞게 자른 것
     top, bottom = arr[2], arr[-2]
 
     cropped = im.crop([0, top, width, bottom])

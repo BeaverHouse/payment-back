@@ -16,6 +16,7 @@ def parse_text(rawdata):
     for l in li:
         s = l.strip()
         if len(s) > 1 and s[-1] == "원":
+            # 새로운 term이 시작되면 arr에 추가하고 초기화
             if "month" in dic:
                 arr.append(dic)
             dic = {}
