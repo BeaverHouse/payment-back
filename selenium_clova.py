@@ -11,6 +11,9 @@ import shutil
 from pathlib import Path
 from parse_text import parse_text
 
+"""
+파일 처리 전체 프로세스
+"""
 def file_ocr(name, year, month):
 
     # 옵션 생성
@@ -79,6 +82,7 @@ def file_ocr(name, year, month):
     arr = sorted(arr, key=lambda x: x["day"])
     arr = sorted(arr, key=lambda x: x["month"])
     
+    
     # 엑셀 작성
     wb = openpyxl.load_workbook('format.xlsx')
     sh = wb["사용내역"]
@@ -104,7 +108,10 @@ def file_ocr(name, year, month):
     Path("result").mkdir(parents=True, exist_ok=True)
     wb.save('result/{} {}년 {}월 법인카드 내역.xlsx'.format(name, year, month))
 
+
+    # 처리된 이미지는 삭제
     shutil.rmtree("screenshots/{}_{}_{}".format(name, year, month), )
+
 
     # 남은 목록이 있으면 오래된 것부터 실행
     paths = sorted(Path("screenshots").iterdir(), key=os.path.getmtime)

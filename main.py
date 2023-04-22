@@ -45,7 +45,6 @@ def crop_and_process(
         # 스크린샷이 있으면 삭제하고 새로 등록 (현재 실행중이 아닐 경우 갱신됨)
         if (os.path.exists("screenshots/{}".format(my_process))):
             shutil.rmtree("screenshots/{}".format(my_process))
-
         for fi in files:
             crop_and_save(fi, my_process)
 
