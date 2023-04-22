@@ -3,6 +3,9 @@ from fastapi import UploadFile
 import io
 from pathlib import Path
 
+"""
+Fastapi 파일 input을 자르고 저장
+"""
 def crop_and_save(file: UploadFile, folder: str):
     content = file.file.read()
 

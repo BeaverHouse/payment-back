@@ -5,6 +5,9 @@ import os
 
 load_dotenv()
 
+"""
+Clova에서 얻은 raw text 파싱
+"""
 def parse_text(rawdata):
     card = os.getenv("card", "카드")
 
@@ -21,7 +24,7 @@ def parse_text(rawdata):
                 arr.append(dic)
             dic = {}
             
-            # 원이 따로 인식되면 숫자에 붙임
+            # 원이 따로 인식되는 경우 숫자에 붙임
             while not s[-2].isdigit():
                 s = s.replace(" 원", "원")
 

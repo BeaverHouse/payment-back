@@ -36,6 +36,7 @@ def file_ocr(name, year, month):
     driver.find_element(By.ID, "email_terms").send_keys("example@test.com") 
 
     # 스크롤 내려서 확인 버튼 클릭
+    # popup 클래스가 2개 : 하나는 동의 포맷 팝업, 하나는 이미지 업로드 팝업
     body = driver.find_element(By.TAG_NAME, "body")
     body.send_keys(Keys.ENTER)
     for _ in range(5):
@@ -43,9 +44,7 @@ def file_ocr(name, year, month):
         
     time.sleep(2)
 
-    # popup 클래스가 2개 : 하나는 동의 포맷 팝업, 하나는 이미지 업로드 팝업
     popups = driver.find_elements(By.CLASS_NAME, "popup")
-
     popups[0].find_element(By.CLASS_NAME, "btn").click()
 
     time.sleep(2)
@@ -59,7 +58,6 @@ def file_ocr(name, year, month):
     arr = []
     for f in file_list_img:
         # 파일 업로드하여 제출
-        print(os.path.abspath(f))
         driver.find_element(By.CLASS_NAME, "btn_upload").click()
         driver.implicitly_wait(5)
         driver.find_element(By.ID,"input_file").send_keys(os.path.abspath(f))
@@ -105,7 +103,6 @@ def file_ocr(name, year, month):
 
     Path("result").mkdir(parents=True, exist_ok=True)
     wb.save('result/{} {}년 {}월 법인카드 내역.xlsx'.format(name, year, month))
-    print('result/{} {}년 {}월 법인카드 내역.xlsx 에 저장됨'.format(name, year, month))
 
     shutil.rmtree("screenshots/{}_{}_{}".format(name, year, month), )
 
