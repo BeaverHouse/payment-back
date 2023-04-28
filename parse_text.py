@@ -35,7 +35,7 @@ def parse_text(rawdata):
             dic = {}
         elif card in s:
             if "shop_name" in dic:
-                sp = s.split(" ")
+                sp = s.replace("월", "월 ").split()
                 dic["month"] = int(re.sub("\D", "", sp[0]))
                 dic["day"] = int(re.sub("\D", "", sp[1]))
     
